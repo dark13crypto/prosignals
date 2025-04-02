@@ -10,10 +10,13 @@ body {
     background: #2c3e50;
     padding: 1rem;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .container {
     padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .signals-panel {
@@ -21,6 +24,7 @@ body {
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 60px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .bottom-nav {
@@ -31,26 +35,39 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 1rem;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
 }
 
 button {
     background: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     background: #2980b9;
+    transform: translateY(-2px);
+}
+
+button.active {
+    background: #2ecc71;
 }
 
 .signal-card {
     background: #343434;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.signal-card:hover {
+    transform: translateY(-2px);
 }
 
 .signal-buy {
@@ -68,20 +85,209 @@ button:hover {
     font-weight: bold;
 }
 
+.confidence-high {
+    color: #2ecc71;
+}
+
+.confidence-medium {
+    color: #f1c40f;
+}
+
+.confidence-low {
+    color: #e74c3c;
+}
+
 .news-card {
     background: #343434;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .news-card:hover {
     background: #404040;
+    transform: translateY(-2px);
+}
+
+.chart-container {
+    margin: 20px 0;
+    padding: 15px;
+    background: #2c2c2c;
+    border-radius: 8px;
+    height: 400px;
 }
 
 .tradingview-widget-container {
     height: 500px;
     width: 100%;
     margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.indicator-panel {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 10px;
+    background: #2c2c2c;
+    border-radius: 5px;
+}
+
+.indicator {
+    text-align: center;
+    padding: 10px;
+}
+
+.indicator-value {
+    font-size: 1.2em;
+    font-weight: bold;
+}body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.navbar {
+  background: #2c3e50;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.signals-panel {
+  background: #2c2c2c;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #2c3e50;
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+button.active {
+  background: #2ecc71;
+}
+
+.signal-card {
+  background: #343434;
+  margin: 15px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.signal-card:hover {
+  transform: translateY(-2px);
+}
+
+.signal-buy {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.signal-sell {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.signal-neutral {
+  color: #f1c40f;
+  font-weight: bold;
+}
+
+.confidence-high {
+  color: #2ecc71;
+}
+
+.confidence-medium {
+  color: #f1c40f;
+}
+
+.confidence-low {
+  color: #e74c3c;
+}
+
+.news-card {
+  background: #343434;
+  margin: 15px 0;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.news-card:hover {
+  background: #404040;
+  transform: translateY(-2px);
+}
+
+.chart-container {
+  margin: 20px 0;
+  padding: 15px;
+  background: #2c2c2c;
+  border-radius: 8px;
+  height: 400px;
+}
+
+.tradingview-widget-container {
+  height: 500px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.indicator-panel {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px;
+  background: #2c2c2c;
+  border-radius: 5px;
+}
+
+.indicator {
+  text-align: center;
+  padding: 10px;
+}
+
+.indicator-value {
+  font-size: 1.2em;
+  font-weight: bold;
 }

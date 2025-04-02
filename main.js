@@ -1,60 +1,69 @@
-let currentPairs = ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD'];
-let lastPrices = {};
-
-const API_URL = 'https://api.exchangerate-api.com/v4/latest/USD';
-
-async function getForexData() {
-    try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        return data.rates;
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
-    }
-}
-
 async function showSignals() {
     const signalsList = document.getElementById('signalsList');
-    signalsList.innerHTML = '<p>Loading signals...</p>';
+    signalsList.innerHTML = '<p>Analyzing market data...</p>';
     
     const rates = await getForexData();
     if (!rates) {
-        signalsList.innerHTML = '<p>Error loading data. Please try again.</p>';
+        signalsList.innerHTML = '<p>Error loading data. Retrying...</p>';
         return;
     }
     
     signalsList.innerHTML = '';
-    currentPairs.forEach(pair => {
-        const signal = createSignalCard(pair, rates);
+    for (const pair of currentPairs) {
+        const signal = await createSignalCard(pair, rates);
         signalsList.appendChild(signal);
-    });
+    }
 }
 
-function createSignalCard(pair, rates) {
+async function createSignalCard(pair, rates) {
     const baseCurrency = pair.substring(0, 3);
     const quoteCurrency = pair.substring(3, 6);
     const rate = rates[quoteCurrency] / rates[baseCurrency];
     
-    const lastPrice = lastPrices[pair] || rate;
-    lastPrices[pair] = rate;
-    
-    const trend = rate > lastPrice ? 'buy' : 'sell';
-    const strength = Math.abs(rate - lastPrice) > 0.0005 ? 'Strong' : 'Weak';
+    if (!historicalData[pair]) {
+        historicalData[pair] = [];
+    }
+    historicalData[pair].push(rate);
+    if (historicalData[pair].length > 100) {
+        historicalData[pair].shift();
+    }
+
+    const indicators = await calculateTechnicalIndicators(historicalData[pair]);
+    const analysis = analyzeSignals(indicators, rate);
     
     const div = document.createElement('div');
     div.className = 'signal-card';
+    
+    const confidenceClass = analysis.confidence > 75 ? 'high' : analysis.confidence > 50 ? 'medium' : 'low';
+    
     div.innerHTML = `
         <h3>${pair}</h3>
         <p>Current Rate: ${rate.toFixed(4)}</p>
-        <p>Direction: <span class="signal-${trend}">
-            ${trend.toUpperCase()}
+        <p>Signal: <span class="signal-${analysis.direction}">
+            ${analysis.direction.toUpperCase()}
         </span></p>
-        <p>Signal Strength: ${strength}</p>
+        <p>Confidence: <span class="confidence-${confidenceClass}">
+            ${analysis.confidence.toFixed(1)}%
+        </span></p>
+        <div class="indicator-panel">
+            <div class="indicator">
+                <div>RSI</div>
+                <div class="indicator-value">${indicators.rsi.toFixed(1)}</div>
+            </div>
+            <div class="indicator">
+                <div>MACD</div>
+                <div class="indicator-value">${indicators.macd.histogram.toFixed(4)}</div>
+            </div>
+            <div class="indicator">
+                <div>ATR</div>
+                <div class="indicator-value">${indicators.atr.toFixed(4)}</div>
+            </div>
+        </div>
         <p>Entry: ${rate.toFixed(4)}</p>
-        <p>SL: ${(trend === 'buy' ? rate * 0.998 : rate * 1.002).toFixed(4)}</p>
-        <p>TP: ${(trend === 'buy' ? rate * 1.002 : rate * 0.998).toFixed(4)}</p>
+        <p>SL: ${(analysis.direction === 'buy' ? rate * 0.998 : rate * 1.002).toFixed(4)}</p>
+        <p>TP: ${(analysis.direction === 'buy' ? rate * 1.002 : rate * 0.998).toFixed(4)}</p>
     `;
+    
     return div;
 }
 
