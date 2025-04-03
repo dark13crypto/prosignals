@@ -1,4 +1,36 @@
-const indicators = calculateIndicators(historicalData[pair]);
+function calculateMACD(prices) {
+    const ema12 = prices.reduce((a, b) => a + b, 0) / prices.length;
+    const ema26 = prices.reduce((a, b) => a + b, 0) / prices.length;
+    return {
+        macd: ema12 - ema26,
+        signal: 0,
+        histogram: ema12 - ema26
+    };
+}
+
+function calculateATR(prices) {
+    if (prices.length < 2) return 0;
+    let sum = 0;
+    for(let i = 1; i < prices.length; i++) {
+        sum += Math.abs(prices[i] - prices[i-1]);
+    }
+    return sum / (prices.length - 1);
+}
+
+async function createSignalCard(pair, rates) {
+    const baseCurrency = pair.substring(0, 3);
+    const quoteCurrency = pair.substring(3, 6);
+    const rate = rates[quoteCurrency] / rates[baseCurrency];
+    
+    if (!historicalData[pair]) {
+        historicalData[pair] = [];
+    }
+    historicalData[pair].push(rate);
+    if (historicalData[pair].length > 100) {
+        historicalData[pair].shift();
+    }
+
+    const indicators = calculateIndicators(historicalData[pair]);
     const direction = indicators.rsi > 70 ? 'sell' : indicators.rsi < 30 ? 'buy' : 'neutral';
     const confidence = Math.abs(50 - indicators.rsi);
     
@@ -35,66 +67,7 @@ const indicators = calculateIndicators(historicalData[pair]);
     return div;
 }
 
-function showAnalysis() {
-    const signalsList = document.getElementById('signalsList');
-    signalsList.innerHTML = `
-        <div class="tradingview-widget-container">
-            <div id="technical-analysis"></div>
-        </div>
-    `;
-    
-    new TradingView.widget({
-        "width": "100%",
-        "height": 500,
-        "symbol": "EURUSD",
-        "interval": "15",
-        "timezone": "Etc/UTC",
-        "theme": "dark",
-        "style": "1",
-        "locale": "en",
-        "toolbar_bg": "#f1f3f6",
-        "enable_publishing": false,
-        "allow_symbol_change": true,
-        "container_id": "technical-analysis"
-    });
-}
-
-function showNews() {
-    const signalsList = document.getElementById('signalsList');
-    signalsList.innerHTML = `
-        <h2>Market News</h2>
-        <div class="news-card">
-            <h3>EUR/USD Analysis</h3>
-            <p>Current trend analysis and key levels</p>
-            <small>Updated: ${new Date().toLocaleTimeString()}</small>
-        </div>
-        <div class="news-card">
-            <h3>XAUUSD Technical Analysis</h3>
-            <p>Gold price movement and support/resistance levels</p>
-            <small>Updated: ${new Date().toLocaleTimeString()}</small>
-        </div>
-    `;
-}
-
-function showSettings() {
-    const modal = document.getElementById('settingsModal');
-    if (modal) modal.style.display = 'block';
-}
-
-function closeSettings() {
-    const modal = document.getElementById('settingsModal');
-    if (modal) modal.style.display = 'none';
-}
-
-function saveSettings() {
-    settings.riskLevel = document.getElementById('riskLevel').value;
-    settings.notifications = document.getElementById('enableNotifications').checked;
-    settings.threshold = parseInt(document.getElementById('signalThreshold').value);
-    settings.advancedAnalysis = document.getElementById('enableAdvancedAnalysis').checked;
-    closeSettings();
-    showSignals();
-}
-
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     showSignals();
     setInterval(showSignals, 60000);
