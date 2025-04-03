@@ -61,8 +61,7 @@ async function createSignalCard(pair, rates) {
             <p>Entry: ${rate.toFixed(4)}</p>
             <p>Stop Loss: ${(direction === 'buy' ? rate * 0.998 : rate * 1.002).toFixed(4)}</p>
             <p>Take Profit: ${(direction === 'buy' ? rate * 1.002 : rate * 0.998).toFixed(4)}</p>
-        </div>
-    `;
+        </div>`;
     
     return div;
 }
