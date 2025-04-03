@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pro Forex Signals</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -34,16 +33,16 @@
     </div>
 
     <div class="bottom-nav">
-        <button onclick="showSignals()" class="nav-button active">
+        <button onclick="app.showSignals()" class="nav-button active">
             <span>📊 Signals</span>
         </button>
-        <button onclick="showAnalysis()" class="nav-button">
+        <button onclick="app.showAnalysis()" class="nav-button">
             <span>📈 Analysis</span>
         </button>
-        <button onclick="showNews()" class="nav-button">
+        <button onclick="app.showNews()" class="nav-button">
             <span>📰 News</span>
         </button>
-        <button onclick="showSettings()" class="nav-button">
+        <button onclick="app.showSettings()" class="nav-button">
             <span>⚙️ Settings</span>
         </button>
     </div>
@@ -74,13 +73,14 @@
                     <input type="checkbox" id="enableAdvancedAnalysis" checked>
                 </div>
                 <div class="modal-buttons">
-                    <button onclick="saveSettings()" class="save-btn">Save</button>
-                    <button onclick="closeSettings()" class="cancel-btn">Cancel</button>
+                    <button onclick="app.saveSettings()" class="save-btn">Save</button>
+                    <button onclick="app.closeSettings()" class="cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
