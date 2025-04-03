@@ -1,38 +1,82 @@
-<div id="settingsModal" class="modal">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pro Forex Signals</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Pro Forex Signals</h1>
+        <select id="currencyPairSelector">
+            <option value="EURUSD">EUR/USD</option>
+            <option value="GBPUSD">GBP/USD</option>
+            <option value="USDJPY">USD/JPY</option>
+            <option value="XAUUSD">XAU/USD</option>
+            <option value="GBPJPY">GBP/JPY</option>
+            <option value="USDCAD">USD/CAD</option>
+            <option value="AUDUSD">AUD/USD</option>
+        </select>
+    </nav>
+
+    <div class="container">
+        <div class="timeframe-selector">
+            <button data-tf="5" class="tf-button">5m</button>
+            <button data-tf="15" class="tf-button active">15m</button>
+            <button data-tf="30" class="tf-button">30m</button>
+            <button data-tf="60" class="tf-button">1h</button>
+            <button data-tf="240" class="tf-button">4h</button>
+        </div>
+
+        <div id="signalsList"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="showSignals()" class="nav-button active">
+            <span>📊 Signals</span>
+        </button>
+        <button onclick="showAnalysis()" class="nav-button">
+            <span>📈 Analysis</span>
+        </button>
+        <button onclick="showNews()" class="nav-button">
+            <span>📰 News</span>
+        </button>
+        <button onclick="showSettings()" class="nav-button">
+            <span>⚙️ Settings</span>
+        </button>
+    </div>
+
+    <div id="settingsModal" class="modal">
         <div class="modal-content">
-            <h3>Signal Settings</h3>
+            <h2>Signal Settings</h2>
             <div class="settings-form">
                 <div class="setting-group">
                     <label>Risk Level:</label>
                     <select id="riskLevel">
-                        <option value="low">Conservative</option>
-                        <option value="medium">Moderate</option>
-                        <option value="high">Aggressive</option>
+                        <option value="conservative">Conservative</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="aggressive">Aggressive</option>
                     </select>
                 </div>
                 <div class="setting-group">
                     <label>Notifications:</label>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="enableNotifications">
-                        <span class="toggle-slider"></span>
-                    </div>
+                    <input type="checkbox" id="enableNotifications">
                 </div>
                 <div class="setting-group">
                     <label>Signal Threshold:</label>
                     <input type="range" id="signalThreshold" min="50" max="95" value="75">
-                    <span id="thresholdValue">75%</span>
+                    <span>75%</span>
                 </div>
                 <div class="setting-group">
                     <label>Advanced Analysis:</label>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="enableAdvancedAnalysis" checked>
-                        <span class="toggle-slider"></span>
-                    </div>
+                    <input type="checkbox" id="enableAdvancedAnalysis" checked>
                 </div>
-            </div>
-            <div class="modal-buttons">
-                <button onclick="saveSettings()" class="save-btn">Save</button>
-                <button onclick="closeSettings()" class="cancel-btn">Cancel</button>
+                <div class="modal-buttons">
+                    <button onclick="saveSettings()" class="save-btn">Save</button>
+                    <button onclick="closeSettings()" class="cancel-btn">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
