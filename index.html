@@ -1,32 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pro Forex Signals</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <h1>Pro Forex Signals</h1>
-    </nav>
-
-    <div class="container">
-        <div class="signals-panel">
-            <h2>Active Signals</h2>
-            <div id="signalsList"></div>
+<div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h3>Signal Settings</h3>
+            <div class="settings-form">
+                <div class="setting-group">
+                    <label>Risk Level:</label>
+                    <select id="riskLevel">
+                        <option value="low">Conservative</option>
+                        <option value="medium">Moderate</option>
+                        <option value="high">Aggressive</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Notifications:</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="enableNotifications">
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Signal Threshold:</label>
+                    <input type="range" id="signalThreshold" min="50" max="95" value="75">
+                    <span id="thresholdValue">75%</span>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button onclick="saveSettings()" class="save-btn">Save</button>
+                <button onclick="closeSettings()" class="cancel-btn">Cancel</button>
+            </div>
         </div>
-        <div class="chart-container">
-            <canvas id="signalChart"></canvas>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <button onclick="showSignals()" class="active">Signals</button>
-        <button onclick="showAnalysis()">Analysis</button>
-        <button onclick="showNews()">News</button>
     </div>
 
     <script src="main.js"></script>
